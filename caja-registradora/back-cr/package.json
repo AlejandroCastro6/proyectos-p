@@ -1,0 +1,47 @@
+{
+  "name": "back-cr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "debug": "node-debug app.js --debug-brk",
+    "test": "mocha specs --reporter spec",
+    "docker": "node scripts/docker.js",
+    "dev": "nodemon bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlejandroCastro6/proyectos-p.git"
+  },
+  "author": "Leonar Castro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlejandroCastro6/proyectos-p/issues"
+  },
+  "homepage": "https://github.com/AlejandroCastro6/proyectos-p#readme",
+  "dependencies": {
+    "axios": "^1.2.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-jwt": "^5.3.1",
+    "folktale": "^2.3.2",
+    "fwsp-config": "1.1.5",
+    "fwsp-server-response": "2.2.6",
+    "moment-timezone": "^0.5.41",
+    "mongoose": "^5.6.9",
+    "morgan": "^1.10.0",
+    "ramda": "^0.28.0",
+    "ssh2-sftp-client": "^9.0.4",
+    "swagger-jsdoc": "^6.2.5",
+    "swagger-ui-express": "^4.6.0"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "chai-http": "^4.3.0",
+    "eslint": "3.16.0",
+    "mocha": "3.2.0",
+    "nodemon": "^2.0.20",
+    "superagent": "3.5.2"
+  }
+}
