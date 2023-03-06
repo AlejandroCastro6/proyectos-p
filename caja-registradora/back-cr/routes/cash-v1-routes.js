@@ -1,7 +1,7 @@
 /**
-* @name cash-v1-api
-* @description This module packages the cashier API.
-*/
+ * @name cash-v1-api
+ * @description This module packages the cashier API.
+ */
 'use strict';
 
 const express = require('express')
@@ -28,8 +28,9 @@ let api = express.Router();
  *        description: Error en el formulario.
  */
 
-api.get('/',[], async (req, res) => {
-  const resp = await CashController.index(req)
+api.get('/', [], async (req, res) => {
+  console.log("El rpinciop de lso tiempos")
+  const resp = await CashController.index()
   if (resp.code >= 400) console.error({result: resp.data})
   return res.status(resp.code).send({result: resp.data})
 });
@@ -123,8 +124,38 @@ api.get('/',[], async (req, res) => {
  *      400:
  *        description: Se genero un error.
  */
-api.post('/',[], async (req, res) => {
-  const resp = await CashController.postCash(req)
+api.post('/', [], async (req, res) => {
+  const resp = await CashController.postCash(req).catch((err) => console.error(err, "pos no entiendo"))
+  if(resp.length) {
+    for (const respElement of resp) {
+      if (respElement.code >= 400) console.error({result: respElement.data})
+      return res.status(respElement.code).send({result: respElement.data})
+    }
+  }
+  return res.status(400).send({result: 'Error MÁXIMO'})
+});
+
+/**
+ * @swagger
+ *  /cash/total:
+ *  get:
+ *    summary: Obtener valor total de transacciones.
+ *    tags:
+ *      - Transaction
+ *    security:
+ *      - ApiKeyAuth: []
+ *    responses:
+ *      200:
+ *        description: Descarga correcta.
+ *      400:
+ *        description: Se genero un error.
+ *      422:
+ *        description: Error en el formulario.
+ */
+
+api.get('/total', [], async (req, res) => {
+  const resp = await CashController.getTotalValue().catch((err) => console.error(err, " dios que pasa"))
+  console.log(resp, " fayute")
   if (resp.code >= 400) console.error({result: resp.data})
   return res.status(resp.code).send({result: resp.data})
 });
