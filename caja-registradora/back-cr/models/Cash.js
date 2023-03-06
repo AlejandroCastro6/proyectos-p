@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 const moment = require("moment-timezone")
 
 let schema = new Schema({
-  valueTotal: {
+  value: {
     type: Number,
     required: [true, 'Este campo es requerido'],
   },

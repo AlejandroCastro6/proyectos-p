@@ -4,8 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "debug": "node-debug app.js --debug-brk",
+    "start": "node cash-service.js",
+    "debug": "node-debug cash-service.js --debug-brk",
     "test": "mocha specs --reporter spec",
     "docker": "node scripts/docker.js",
     "dev": "nodemon bin/www"
