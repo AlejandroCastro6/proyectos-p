@@ -49,7 +49,7 @@ const Cart = () => {
   return (
     <div className="cart">
       <h2>Caja registradora</h2>
-      <h2 style={{color: 'red'}}>{numberWithCommas(state.totalValueCashier)}</h2>
+      <h2 style={{fontSize:'50px',color: 'red'}}>{numberWithCommas(state.totalValueCashier)}</h2>
       <Box sx={{width: '100%'}}>
         <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
           <Tabs value={valueTab} onChange={handleChange} aria-label='basic tabs example'>

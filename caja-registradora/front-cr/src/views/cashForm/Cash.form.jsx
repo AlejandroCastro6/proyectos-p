@@ -5,6 +5,24 @@ import {useDispatch} from "react-redux";
 import {FormControl} from "@mui/material";
 import Grid from '@mui/material/Unstable_Grid2';
 import NumericFormatCustom from '../../component/Inputs/NumericFormatCustom'
+import {styled} from '@mui/material/styles';
+
+
+const ValidationTextField = styled(TextField)({
+  '& input:valid + fieldset': {
+    borderColor: 'green',
+    borderWidth: 2,
+  },
+  '& input:invalid + fieldset': {
+    borderColor: 'red',
+    borderWidth: 2,
+  },
+  '& input:valid:focus + fieldset': {
+    borderLeftWidth: 6,
+    padding: '4px !important', // override inline-style
+  },
+});
+
 
 const CashForm = () => {
   const dispatch = useDispatch();
@@ -13,6 +31,7 @@ const CashForm = () => {
   const [cashOut, setCashOut] = useState()
   const [subTotal, setSubTotal] = useState(0)
   const [transactions, setTransactions] = useState([])
+  const [errors, setErrors] = useState([])
   const handleChangeCashIn = (event) => {
     setCashIn(event.target.value)
   };
@@ -24,6 +43,10 @@ const CashForm = () => {
   };
 
   const keyDownHandler = event => {
+
+    if (event.key === 'a') {
+      console.log("#cosas")
+    }
     if (event.key === 'Enter') {
       event.preventDefault();
       // 👇️ your logic here
@@ -41,20 +64,26 @@ const CashForm = () => {
 
   const addSubTotal = (value) => {
     if (/[0-9]/.test(value)) {
-      setTransactions([...transactions, {value: value, description: description, transactionType: 'IN'}])
-      const calc = subTotal + parseInt(value)
-      setSubTotal(calc)
-      setCashIn('')
-      setDescription('')
+      if (description.length) {
+        setTransactions([...transactions, {value: value, description: description, transactionType: 'IN'}])
+        const calc = subTotal + parseInt(value)
+        setSubTotal(calc)
+        setCashIn('')
+        setDescription('')
+      } else
+        setErrors('Este campo es requerido')
     }
   };
   const subtractSubTotal = (value) => {
     if (/[0-9]/.test(value)) {
-      setTransactions([...transactions, {value: value, description: description, transactionType: 'OUT'}])
-      const calc = subTotal - parseInt(value)
-      setSubTotal(calc)
-      setCashOut('')
-      setDescription('')
+      if (description.length) {
+        setTransactions([...transactions, {value: value, description: description, transactionType: 'OUT'}])
+        const calc = subTotal - parseInt(value)
+        setSubTotal(calc)
+        setCashOut('')
+        setDescription('')
+      } else
+        setErrors('Este campo es requerido')
     }
   };
 
@@ -64,6 +93,7 @@ const CashForm = () => {
     setCashOut('')
     setCashIn('')
     setDescription('')
+    setErrors('')
     dispatch(refreshValueCashier())
   }
 
@@ -109,13 +139,16 @@ const CashForm = () => {
         </Grid>
         <Grid xs={6} xsOffset={3} md={2} mdOffset={1}>
           <FormControl fullWidth sx={{m: 1}}>
-            <TextField
-              label="Descripcion"
+            <ValidationTextField
+              label="Descripción"
               value={description}
               onChange={handleChangeDescription}
-              name="descritpion"
-              id="formatted-descroption"
+              required
               variant="outlined"
+              defaultValue="Success"
+              id="validation-outlined-input"
+              error={!!(!description && errors)}
+              helperText={errors}
             />
           </FormControl>
         </Grid>
@@ -135,15 +168,6 @@ const CashForm = () => {
           </FormControl>
         </Grid>
         <Grid xs={4} xsOffset={4} md={2} mdOffset={5}>
-          <button
-            // disabled={state.numOfItems <= 0}
-            onClick={handleEnter}
-            className="black"
-          >
-            Enter
-          </button>
-        </Grid>
-        <Grid xs={4} xsOffset={4} md={2} mdOffset={5}>
           <TextField
             name="numberformat2"
             id="filled-read-only-input"
@@ -155,6 +179,15 @@ const CashForm = () => {
             }}
             variant="outlined"
           />
+        </Grid>
+        <Grid xs={4} xsOffset={4} md={2} mdOffset={5}>
+          <button
+            // disabled={state.numOfItems <= 0}
+            onClick={handleEnter}
+            className="black"
+          >
+            Guardar
+          </button>
         </Grid>
       </Grid>
     </div>

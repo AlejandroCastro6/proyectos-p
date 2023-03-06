@@ -16,7 +16,6 @@ const ViewTransactions = () => {
     (async () => {
       return await dispatch(getTransactions())
     })().then((resp) => {
-      console.log(resp, "resput")
       setData(resp.payload)
     }).catch(console.error)
 
