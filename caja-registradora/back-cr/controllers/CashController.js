@@ -7,7 +7,7 @@ const R = require('ramda')
  */
 exports.index = async function () {
   console.log("ahi voy bien ???")
-  let data = await Cash.find({}).catch(console.error)
+  let data = await Cash.find({}).sort({_id:-1}).catch(console.error)
   return {data, code: 200}
 }
 
